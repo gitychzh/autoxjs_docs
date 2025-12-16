@@ -5,6 +5,7 @@ export default defineConfig({
     root: "docs",
     outDir: "rspressPage", //新增的，与目标目录一致，方便写部署代码
     // base: "/Autox_ozobi_Docs", // 如果是生成 autox app 的本地文档，需要注释掉这一行
+    base: '/rspressPage/',
     title: "Autox_ozobi_Docs",
     markdown: {
         showLineNumbers: true,
