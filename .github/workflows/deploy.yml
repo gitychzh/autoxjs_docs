@@ -11,42 +11,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. checkout autoxjs_docs
+      # 1. Checkout autoxjs_docs
       - name: Checkout autoxjs_docs
         uses: actions/checkout@v4
 
-      # 2. setup node
+      # 2. Setup Node.js
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # 3. install deps
+      # 3. Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # 4. build rspress
+      # 4. Build rspress (output: ./rspressPage)
       - name: Build rspress
         run: npm run build
 
-      # 5. clone hskt1
+      # 5. Clone hskt1
       - name: Clone hskt1 repo
         run: |
           git clone https://x-access-token:${{ secrets.hskt1_token }}@github.com/gitychzh/hskt1.git
 
-      # 6. sync rspress output to hskt1/source/rspressPage
+      # 6. Sync rspress output to hskt1/source/rspressPage
       - name: Sync rspress output
         run: |
           rm -rf hskt1/source/rspressPage
           mkdir -p hskt1/source/rspressPage
-          cp -r .rspress/dist/* hskt1/source/rspressPage/
+          cp -r rspressPage/* hskt1/source/rspressPage/
 
-      # 7. commit & push
+      # 7. Commit & push to hskt1
       - name: Commit and push changes
         run: |
           cd hskt1
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add source/rspressPage
-          git commit -m "chore: sync rspress static site" || echo "No changes to commit"
+          git commit -m "chore(rspress): sync static site from autoxjs_docs" || echo "No changes to commit"
           git push
