@@ -1,53 +1,52 @@
-name: Deploy Rspress site to Pages
+name: Build rspress and sync to hskt1/source/rspressPage
 
 on:
-    push:
-        branches: [master]
-    workflow_dispatch:
-
-permissions:
-    contents: read
-    pages: write
-    id-token: write
-
-concurrency:
-    group: pages
-    cancel-in-progress: true
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
+  build-and-sync:
+    runs-on: ubuntu-latest
 
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 20
-                  cache: npm
+    steps:
+      # 1. checkout autoxjs_docs
+      - name: Checkout autoxjs_docs
+        uses: actions/checkout@v4
 
-            - name: Install dependencies
-              run: npm install
+      # 2. setup node
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-            - name: Build with Rspress
-              run: npm run build
+      # 3. install deps
+      - name: Install dependencies
+        run: npm install
 
-            - name: Upload artifact
-              uses: actions/upload-pages-artifact@v3
-              with:
-                  path: doc_build
+      # 4. build rspress
+      - name: Build rspress
+        run: npm run build
 
-    deploy:
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
-        needs: build
-        runs-on: ubuntu-latest
-        name: Deploy
-        steps:
-            - name: Deploy to GitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v4
+      # 5. clone hskt1
+      - name: Clone hskt1 repo
+        run: |
+          git clone https://x-access-token:${{ secrets.hskt1_token }}@github.com/gitychzh/hskt1.git
+
+      # 6. sync rspress output to hskt1/source/rspressPage
+      - name: Sync rspress output
+        run: |
+          rm -rf hskt1/source/rspressPage
+          mkdir -p hskt1/source/rspressPage
+          cp -r .rspress/dist/* hskt1/source/rspressPage/
+
+      # 7. commit & push
+      - name: Commit and push changes
+        run: |
+          cd hskt1
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add source/rspressPage
+          git commit -m "chore: sync rspress static site" || echo "No changes to commit"
+          git push
