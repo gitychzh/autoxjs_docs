@@ -6,7 +6,8 @@
     },
     {
         "text": "计算机主页",
-        "link": "../../"
+        "link": "/rspressPage/",
+        "activeMatch": "^/rspressPage/"
         
     },
     {
