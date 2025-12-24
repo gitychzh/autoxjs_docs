@@ -3,5 +3,15 @@
         "text": "Guide",
         "link": "/guides/introduction",
         "activeMatch": "^/guides/"
+    },
+    {
+        "text": "计算机主页",
+        "link": "../",
+        "activeMatch": "^/../"
+    },
+    {
+        "text": "博客首页",
+        "link": "https://cs2.223722.xyz/",
+        
     }
 ]
