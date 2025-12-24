@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       # 3. Install dependencies
       - name: Install dependencies
@@ -29,22 +29,22 @@ jobs:
       - name: Build rspress
         run: npm run build
 
-      # 5. Clone hskt1
-      - name: Clone hskt1 repo
+      # 5. Clone hskt
+      - name: Clone hskt repo
         run: |
-          git clone https://x-access-token:${{ secrets.hskt1_token }}@github.com/gitychzh/hskt1.git
+          git clone https://x-access-token:${{ secrets.hskt_token }}@github.com/gitychzh/hskt.git
 
-      # 6. Sync rspress output to hskt1/source/rspressPage
+      # 6. Sync rspress output to hskt/source/rspressPage
       - name: Sync rspress output
         run: |
-          rm -rf hskt1/source/rspressPage
-          mkdir -p hskt1/source/rspressPage
-          cp -r rspressPage/* hskt1/source/rspressPage/
+          rm -rf hskt/source/rspressPage
+          mkdir -p hskt/source/rspressPage
+          cp -r rspressPage/* hskt/source/rspressPage/
 
-      # 7. Commit & push to hskt1
+      # 7. Commit & push to hskt
       - name: Commit and push changes
         run: |
-          cd hskt1
+          cd hskt
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add source/rspressPage
