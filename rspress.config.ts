@@ -2,8 +2,8 @@ import { defineConfig } from "rspress/config";
 
 export default defineConfig({
     // 文档根目录
-    // root: "docs",//暂时注释
-    root: "hskt1", //新增的，与目标目录一致，方便写部署代码
+    root: "docs",//暂时注释
+    // root: "hskt1", //新增的，与目标目录一致，方便写部署代码
     outDir: "rspressPage", //新增的，与目标目录一致，方便写部署代码
     // base: "/Autox_ozobi_Docs", // 如果是生成 autox app 的本地文档，需要注释掉这一行
     base: '/rspressPage/',
