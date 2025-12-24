@@ -12,7 +12,8 @@
     },
     {
         "text": "博客首页",
-        "link": "../../../"
+        "link": "../hskt1/",
+        "activeMatch": "^/hskt1/"
         
     }
 ]
