@@ -13,6 +13,6 @@
     "license": "ISC",
     "description": "",
     "devDependencies": {
-        "rspress": "^1.43.11"
+        "rspress": "^1.47.0"
     }
 }
